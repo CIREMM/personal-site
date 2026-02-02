@@ -47,6 +47,10 @@ a:hover{text-decoration:underline}
   border-right: var(--border);
   transition: width .22s ease;
 }
+/*Otherwise hover/active colors might behave inconsistently.*/
+:root{
+  --accent-color: #00ad3c;
+}
 
 /* Expand on hover (desktop) */
 .nav:hover{
@@ -1109,4 +1113,76 @@ textarea{min-height: 140px; resize: vertical;}
   color: var(--muted);
   margin-top: 10px;
   font-size: 14px;
+}
+/* =========================
+   Featured section: fit to viewport
+   ========================= */
+
+/* Don’t force huge vertical padding for this section */
+.page .section.featured.section-fit{
+  padding: 48px 0;
+}
+
+/* Cap the visible height of the carousel so it fits in the viewport */
+.page .section.featured .proj-carousel{
+  max-height: none;
+  overflow: hidden;
+  border-radius: var(--radius);
+  border: var(--border);
+  box-shadow: var(--shadow);
+  background: var(--panel);
+}
+
+/* Make slide/card fill the carousel height cleanly */
+.page .section.featured .proj-slide,
+.page .section.featured .proj-slide .card.pad{
+  height: 100%;
+}
+
+/* Let the content inside the card layout naturally without overflowing */
+.page .section.featured .proj-slide .card.pad{
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Reduce the “hero-sized” project image ONLY here */
+.page .section.featured .project-media{
+  height: clamp(400px, 32vh, 360px); /* key change from 640px */
+  max-height: 500px;
+  border-radius: calc(var(--radius) - 6px);
+  overflow: hidden;
+}
+
+/* Keep top of image visible (crop from bottom) */
+.page .section.featured .project-media img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  display: block;
+}
+
+/* Make the two columns not “fight” for height */
+.page .section.featured .two-col{
+  align-items: start;
+}
+
+/* Tone down the huge 44px title only in Featured slides */
+.page .section.featured .proj-slide h2{
+  font-size: clamp(28px, 3.2vw, 42px) !important;
+  line-height: 1.05;
+  margin: 0;
+}
+
+/* Mobile: stack + fit under bottom nav */
+@media (max-width: 820px){
+  .page .section.featured .proj-carousel{
+    max-height: calc(100vh - 260px);
+  }
+
+  .page .section.featured .project-media{
+    height: 240px;
+    max-height: 240px;
+  }
 }
